@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QuickLinks</title>
+    <script>
+        // Function to fetch and display hyperlinks
+        function loadHyperlinks() {
+            fetch('https://raw.githubusercontent.com/username/repository/branch/HyperLinks.txt')
+                .then(response => response.text())
+                .then(data => {
+                    let lines = data.split('\n');
+                    let list = document.getElementById('linksList');
+
+                    lines.forEach(line => {
+                        if (line.trim() === '') return;
+
+                        let parts = line.split('][');
+                        let text = parts[0].substring(parts[0].indexOf('[') + 1);
+                        let url = parts[1].slice(0, -1);
+
+                        let listItem = document.createElement('li');
+                        let link = document.createElement('a');
+                        let button = document.createElement('button');
+
+                        link.href = url;
+                        link.textContent = text;
+                        button.textContent = 'Copy';
+                        button.onclick = function() {
+                            navigator.clipboard.writeText(text + ': ' + url);
+                        };
+
+                        listItem.appendChild(button);
+                        listItem.appendChild(link);
+                        list.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Call the function when the window loads
+        window.onload = loadHyperlinks;
+    </script>
+</head>
+<body>
+    <h1>QuickLinks</h1>
+    <ul id="linksList"></ul>
+</body>
+</html>
