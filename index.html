@@ -1,4 +1,3 @@
-// Function to fetch and display hyperlinks
 function loadHyperlinks() {
     fetch('https://raw.githubusercontent.com/JC-DMD/QuickLinks/main/HyperLinks.txt')
         .then(response => response.text())
@@ -9,7 +8,6 @@ function loadHyperlinks() {
             lines.forEach(line => {
                 if (line.trim() === '') return;
 
-                // Updated parsing logic to remove the closing bracket
                 let parts = line.match(/\[(.*?)\]\((.*?)\)/);
                 if (parts && parts.length === 3) {
                     let text = parts[1];
