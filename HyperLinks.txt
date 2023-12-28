@@ -1,0 +1,5 @@
+1. [Zoning and Development Code][https://library.municode.com/mo/kansas_city/codes/zoning_and_development_code]
+2. [Parcel Viewer][https://maps.kcmo.org/apps/parcelviewer/]
+3. [KCMO.gov][https://www.kcmo.gov/]
+4. [CompassKC][https://compasskc.kcmo.org/EnerGov_Prod/SelfService#/home]
+5. [Fee Calculator][https://drive.google.com/file/d/1Tt6_Tx0cItw_f65nagooNpaRffS7RjLP/view]
