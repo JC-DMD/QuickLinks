@@ -27,12 +27,33 @@
                             link.target = "_blank"; // Open in new tab
                             button.textContent = 'Copy';
                             button.onclick = function() {
-                                var htmlLink = '<a href="' + url + '">' + text + '</a>';
-                                navigator.clipboard.writeText(htmlLink).then(function() {
-                                    console.log('Async: Copying to clipboard was successful!');
-                                }, function(err) {
-                                    console.error('Async: Could not copy text: ', err);
-                                });
+                                // Create a temporary element to hold our HTML
+                                var tempElem = document.createElement('div');
+                                tempElem.style.position = 'absolute';
+                                tempElem.style.left = '-9999px';
+                                tempElem.innerHTML = '<a href="' + url + '">' + text + '</a>';
+                                document.body.appendChild(tempElem);
+                            
+                                // Select the content
+                                var range = document.createRange();
+                                range.selectNodeContents(tempElem);
+                                var selection = window.getSelection();
+                                selection.removeAllRanges();
+                                selection.addRange(range);
+                            
+                                // Copy the selection
+                                var successful = document.execCommand('copy');
+                            
+                                // Cleanup
+                                selection.removeAllRanges();
+                                document.body.removeChild(tempElem);
+                            
+                                // Log the result
+                                if (successful) {
+                                    console.log('Text copied to clipboard.');
+                                } else {
+                                    console.log('Text copy failed.');
+                                }
                             };
                                     
                             listItem.appendChild(button);
