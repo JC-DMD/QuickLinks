@@ -27,9 +27,14 @@
                             link.target = "_blank"; // Open in new tab
                             button.textContent = 'Copy';
                             button.onclick = function() {
-                                navigator.clipboard.writeText('[' + text + '](' + url + ')');
+                                var htmlLink = '<a href="' + url + '">' + text + '</a>';
+                                navigator.clipboard.writeText(htmlLink).then(function() {
+                                    console.log('Async: Copying to clipboard was successful!');
+                                }, function(err) {
+                                    console.error('Async: Could not copy text: ', err);
+                                });
                             };
-        
+                                    
                             listItem.appendChild(button);
                             listItem.appendChild(link);
                             list.appendChild(listItem);
