@@ -1,48 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>QuickLinks</title>
-    <script>
-        // Function to fetch and display hyperlinks
-        function loadHyperlinks() {
-            fetch('https://raw.githubusercontent.com/JC-DMD/QuickLinks/main/HyperLinks.txt')
-                .then(response => response.text())
-                .then(data => {
-                    let lines = data.split('\n');
-                    let list = document.getElementById('linksList');
+// Function to fetch and display hyperlinks
+function loadHyperlinks() {
+    fetch('https://raw.githubusercontent.com/username/repository/branch/HyperLinks.txt')
+        .then(response => response.text())
+        .then(data => {
+            let lines = data.split('\n');
+            let list = document.getElementById('linksList');
 
-                    lines.forEach(line => {
-                        if (line.trim() === '') return;
+            lines.forEach(line => {
+                if (line.trim() === '') return;
 
-                        let parts = line.split('][');
-                        let text = parts[0].substring(parts[0].indexOf('[') + 1);
-                        let url = parts[1].slice(0, -1);
+                // Updated parsing logic to remove the closing bracket
+                let parts = line.match(/\[(.*?)\]\((.*?)\)/);
+                if (parts && parts.length === 3) {
+                    let text = parts[1];
+                    let url = parts[2];
 
-                        let listItem = document.createElement('li');
-                        let link = document.createElement('a');
-                        let button = document.createElement('button');
+                    let listItem = document.createElement('li');
+                    let link = document.createElement('a');
+                    let button = document.createElement('button');
 
-                        link.href = url;
-                        link.textContent = text;
-                        button.textContent = 'Copy';
-                        button.onclick = function() {
-                            navigator.clipboard.writeText(text + ': ' + url);
-                        };
+                    link.href = url;
+                    link.textContent = text;
+                    link.target = "_blank"; // Open in new tab
+                    button.textContent = 'Copy';
+                    button.onclick = function() {
+                        navigator.clipboard.writeText('[' + text + '](' + url + ')');
+                    };
 
-                        listItem.appendChild(button);
-                        listItem.appendChild(link);
-                        list.appendChild(listItem);
-                    });
-                })
-                .catch(error => console.error('Error:', error));
-        }
+                    listItem.appendChild(button);
+                    listItem.appendChild(link);
+                    list.appendChild(listItem);
+                }
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
 
-        // Call the function when the window loads
-        window.onload = loadHyperlinks;
-    </script>
-</head>
-<body>
-    <h1>QuickLinks</h1>
-    <ul id="linksList"></ul>
-</body>
-</html>
+// Call the function when the window loads
+window.onload = loadHyperlinks;
